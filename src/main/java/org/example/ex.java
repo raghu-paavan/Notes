@@ -36,7 +36,12 @@ public class ex {
 
             System.out.println("In the hasnext block");
             if(inputIterator.hasNext() == false)
+            {
+                if(temp.size()>0)
+                    return true;
                 return false;
+            }
+
 
             while(inputIterator.hasNext())
             {
@@ -44,14 +49,17 @@ public class ex {
                 if(current<=blockLimit)
                 {
                     temp.add(current);
-                    block.add(current);
                     sum+= current;
                     break;
                 }
             }
 
             if(inputIterator.hasNext() == false)
+            {
+                if(temp.size() > 0)
+                    return true;
                 return false;
+            }
 
             System.out.println("\n\n");
             while(sum <= blockLimit && inputIterator.hasNext())
@@ -65,7 +73,6 @@ public class ex {
                 if(sum+val<=blockLimit)
                 {
                     temp.add(val);
-                    block.add(val);
                     sum += val;
                 }
                 else
@@ -83,15 +90,17 @@ public class ex {
                     if(val <= blockLimit)
                     {
                         temp.add(val);
-                        block.add(val);
                         sum = val;
                     }
                     break;
                 }
             }
 
-            if(inputIterator.hasNext() == false)
+            if(inputIterator.hasNext() == false){
+                if (temp.size() > 0)
+                    return true;
                 return false;
+            }
 
             return true;
         }
@@ -103,17 +112,23 @@ public class ex {
         @Override
         public List<Integer> next() {
 
-            System.out.println("Start");
+            System.out.println("\n\nStart");
             if(hasNext()){
                 System.out.println("End\n\n");
-
-                List<Integer> ans = new ArrayList<>(block);
-                block.clear();
-                return ans;
+                if(block.size() >0){
+                    List<Integer> ans = new ArrayList<>(block);
+                    block.clear();
+                    return ans;
+                }
+                else
+                {
+                    List<Integer> ans = new ArrayList<>(temp);
+                    temp.clear();
+                    return ans;
+                }
             }
-
-            return null;
-            // throw NoSuchElementException;
+//            return new ArrayList<>();
+            throw new NoSuchElementException("Value not found in Optional");
         }
     }
 
