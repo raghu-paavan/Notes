@@ -210,3 +210,33 @@ PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Comparator.reverseOrder()
             return Objects.hash(x, y);
         }
     }
+
+
+
+
+In Java, HashSet uses equals() and hashCode() to determine if an object is already present in the set, not the memory reference of the object
+    List<Integer> x = new ArrayList<>(List.of(1,2,3));
+    List<Integer> y = List.of(1,2,3);
+    Set<List<Integer>> s = new HashSet<>();
+    s.add(x);
+    if(s.contains(y))
+        System.out.println("hello");
+    else
+        System.out.println("world");
+
+    output:
+        hello
+
+
+but the same doesn't work for, because equals() compare the memory reference in case of arrays.
+		int[] x1 = {1,2,3};
+		int[] y1 = {1,2,3};
+		Set<int[]> s1 = new HashSet<>();
+		s1.add(x1);
+		if(s1.contains(y1))
+		    System.out.println("hello");
+		else
+		    System.out.println("world");
+
+		output:
+		    world
