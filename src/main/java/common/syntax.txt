@@ -240,3 +240,30 @@ but the same doesn't work for, because equals() compare the memory reference in 
 
 		output:
 		    world
+
+
+Upper and lower bound implementation
+**end is exclusive
+public int lowerBound(int [] nums, int start, int end, int x)
+{
+    while(start<end)
+    {
+        int mid = (start+end)/2;
+        if(nums[mid]>=x) end = mid;
+        else start = mid+1;
+    }
+    return start;
+}
+public int upperBound(int [] nums, int start, int end, int x)
+{
+    while(start<end)
+    {
+        int mid = (start+end)/2;
+        if(nums[mid]<=x) start = mid+1;
+        else end = mid;
+    }
+    return start;
+}
+ans[0] = lowerBound(nums, 0, nums.length, target);
+
+
