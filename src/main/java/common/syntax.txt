@@ -5,6 +5,13 @@ Double.MIN_VALUE: 4.9E-324
 
 
 
+*********Pair syntax*********
+Pair<Integer, Integer> p = new Pair<Integer, Integer>(1,2);
+pair is immutable, so you cannot edit them. 
+p.getKey();
+p.getValue();
+
+
 *********Arrays syntax*********
 int [] ans = new int[k];
 ans.length
