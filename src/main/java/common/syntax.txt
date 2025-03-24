@@ -187,6 +187,9 @@ pq.peek() returns the root value
 pq.size()
 pq.clear()
 PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Comparator.reverseOrder());
+PriorityQueue<Pair<Integer, Double>> pq = new PriorityQueue<>(
+    (a, b) -> Double.compare(b.getValue(), a.getValue()) // Correct comparator
+);
 
 
 *********** Map of 2d point***************
