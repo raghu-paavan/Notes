@@ -4,6 +4,9 @@ Double.MAX_VALUE: 1.7976931348623157E308
 Double.MIN_VALUE: 4.9E-324
 
 
+Remove spaces from a string 
+String cleanedExpression = expression.replaceAll("\\s+", "");
+
 
 *********Pair syntax*********
 Pair<Integer, Integer> p = new Pair<Integer, Integer>(1,2);
