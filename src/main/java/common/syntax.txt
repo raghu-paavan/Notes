@@ -190,6 +190,27 @@ sb.append('-');
 sb.toString()
 
 
+lr[0].split("(?=\\+)|(?=-)")
+This is the key part. It splits the string using a regex with lookaheads.
+
+✅ Regex Explained:
+
+(?=\\+): Positive lookahead for +
+Matches a position just before a +
+\\+ is how you escape + in a Java string (regex requires \+, but Java strings require \\+)
+(?=-): Positive lookahead for -
+|: Logical OR
+So this will split the string before every + or -, but won’t remove the operator.
+
+String[] lr = {"10+20-30+40"};
+String[] parts = lr[0].split("(?=\\+)|(?=-)");
+System.out.println(Arrays.toString(parts));
+
+[10, +20, -30, +40]
+
+
+
+
 
 
 *********Stack operations*********
