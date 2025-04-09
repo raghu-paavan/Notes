@@ -129,6 +129,11 @@ Collections.sort(list, new Comparator<Entry<Integer, Integer>>()
  }
 );
 
+TreeSet<Integer> set = new TreeSet<>();
+tailSet(x, false) returns a view of the portion of the set with elements strictly greater than x.
+false means exclude x. Use true to include x.
+
+
 
 *********TreeMap operations*********
 TreeMap<Integer,Integer> map = new TreeMap<Integer,Integer>();
