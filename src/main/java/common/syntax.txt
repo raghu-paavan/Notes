@@ -130,6 +130,7 @@ Collections.sort(list, new Comparator<Entry<Integer, Integer>>()
 );
 
 TreeSet<Integer> set = new TreeSet<>();
+SortedSet<Integer> greaterThanX = set.tailSet(x, false);
 tailSet(x, false) returns a view of the portion of the set with elements strictly greater than x.
 false means exclude x. Use true to include x.
 
