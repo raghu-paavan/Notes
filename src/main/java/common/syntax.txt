@@ -320,3 +320,72 @@ public int upperBound(int [] nums, int start, int end, int x)
 ans[0] = lowerBound(nums, 0, nums.length, target);
 
 
+---
+
+### 🔁 Java Conversions: `String`, `int`, `char`
+
+---
+
+### ✅ **String → int**
+```java
+String str = "123";
+int num = Integer.parseInt(str);
+```
+
+---
+
+### ✅ **String → char**
+(assuming you're extracting just one character)
+```java
+String str = "abc";
+char ch = str.charAt(0);  // gets 'a'
+```
+
+---
+
+### ✅ **char → int**
+```java
+char ch = '7';
+int num = ch - '0';  // If ch is a digit
+```
+Or to get ASCII/Unicode value:
+```java
+int code = (int) ch;  // e.g. 'A' -> 65
+```
+
+---
+
+### ✅ **char → String**
+```java
+char ch = 'z';
+String str = String.valueOf(ch);
+// or
+String str2 = Character.toString(ch);
+```
+
+---
+
+### ✅ **int → char**
+```java
+int num = 5;
+char ch = (char) (num + '0');  // If num is 0–9
+```
+Or to convert ASCII code:
+```java
+int code = 65;
+char ch = (char) code;  // 'A'
+```
+
+---
+
+### ✅ **int → String**
+```java
+int num = 789;
+String str = String.valueOf(num);
+// or
+String str2 = Integer.toString(num);
+```
+
+---
+
+Let me know if you want the reverse of any of these involving arrays or lists too.
