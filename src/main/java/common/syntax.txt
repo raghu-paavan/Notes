@@ -388,4 +388,27 @@ String str2 = Integer.toString(num);
 
 ---
 
-Let me know if you want the reverse of any of these involving arrays or lists too.
+LRU Cache
+class LRUCache {
+    int capacity; 
+    LinkedHashMap<Integer,Integer> mp ;
+    public LRUCache(int capacity) {
+        this.capacity = capacity; 
+        mp = new LinkedHashMap<Integer, Integer>(capacity, 0.75f, true){
+            @Override
+            public boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest)
+            {
+                return size() > LRUCache.this.capacity;
+            }
+        };
+    }
+    
+    public int get(int key) {
+        return mp.getOrDefault(key,-1);
+    }
+    
+    public void put(int key, int value) {
+        mp.put(key,value);
+    }
+}
+
