@@ -412,3 +412,92 @@ class LRUCache {
     }
 }
 
+Here’s a quick primer on using Java’s `TreeMap<K,V>` (which implements `NavigableMap<K,V>`):
+
+```java
+import java.util.*;
+
+public class TreeMapExample {
+    public static void main(String[] args) {
+        // 1) Declare & instantiate
+        TreeMap<String, Integer> map = new TreeMap<>();
+
+        // 2) Basic mutators/accessors
+        map.put("apple",  10);    // insert or overwrite
+        map.put("banana", 20);
+        map.put("cherry", 30);
+
+        Integer v = map.get("banana");   // 20
+        boolean has = map.containsKey("date"); 
+        Integer old = map.remove("apple");  // removes "apple" → 10
+
+        int size = map.size();   // 2
+        boolean empty = map.isEmpty();
+
+        // 3) NavigableMap methods
+        String lo = map.firstKey();    // lowest key
+        String hi = map.lastKey();     // highest key
+
+        Map.Entry<String,Integer> e1 = map.ceilingEntry("blue");  
+        // → first entry with key ≥ "blue"
+
+        String k2 = map.floorKey("blue");     
+        // → largest key ≤ "blue"
+
+        String higher = map.higherKey("banana"); 
+        // → next key > "banana"
+
+        String lower  = map.lowerKey("banana");  
+        // → next key < "banana"
+
+        // 4) Range views
+        SortedMap<String,Integer> head = map.headMap("cherry"); 
+        // keys < "cherry"
+
+        SortedMap<String,Integer> tail = map.tailMap("banana"); 
+        // keys ≥ "banana"
+
+        NavigableMap<String,Integer> sub = map.subMap("banana", true, "date", false);
+        // keys in [ "banana" … "date" )
+
+        // 5) Iteration
+        for (String key : map.keySet()) {
+            System.out.println(key + " → " + map.get(key));
+        }
+        for (Map.Entry<String,Integer> ent : map.entrySet()) {
+            System.out.println(ent.getKey() + ":" + ent.getValue());
+        }
+
+        // 6) Bulk operations
+        map.clear();
+        map.putAll(Map.of("x",1, "y",2, "z",3));
+    }
+}
+```
+
+---
+
+### Common `TreeMap<K,V>` methods
+
+| Method Signature                                        | What it does                                                    |
+|---------------------------------------------------------|-----------------------------------------------------------------|
+| `V put(K key, V value)`                                 | Insert or replace the mapping for `key`.                       |
+| `V get(Object key)`                                     | Retrieve value for `key`, or `null` if absent.                 |
+| `V remove(Object key)`                                  | Remove entry for `key`, returning its old value (or `null`).   |
+| `boolean containsKey(Object key)`                       | `true` if map has a mapping for `key`.                         |
+| `int size()`, `boolean isEmpty()`                       | Query number of entries or emptiness.                          |
+|                                                         |                                                                 |
+| `K firstKey()`, `K lastKey()`                           | Lowest and highest keys, respectively.                         |
+| `Map.Entry<K,V> firstEntry()`, `lastEntry()`            | Entry for lowest/highest key.                                  |
+| `K ceilingKey(K key)`, `Map.Entry<K,V> ceilingEntry(K)` | Least key ≥ `key` (and its entry).                             |
+| `K floorKey(K key)`, `Map.Entry<K,V> floorEntry(K)`     | Greatest key ≤ `key` (and its entry).                          |
+| `K higherKey(K key)`, `Map.Entry<K,V> higherEntry(K)`   | Least key > `key`.                                             |
+| `K lowerKey(K key)`, `Map.Entry<K,V> lowerEntry(K)`     | Greatest key < `key`.                                          |
+| `NavigableSet<K> navigableKeySet()`                     | View of keys in ascending order.                               |
+| `NavigableSet<K> descendingKeySet()`                    | Keys in descending order.                                      |
+|                                                         |                                                                 |
+| `SortedMap<K,V> headMap(K toKey)`, `headMap(K,boolean)` | View of keys `< toKey` (optionally inclusive).                 |
+| `SortedMap<K,V> tailMap(K fromKey)`, `tailMap(K,boolean)` | View of keys `≥ fromKey` (optionally inclusive).             |
+| `NavigableMap<K,V> subMap(K fromKey, boolean, K toKey, boolean)` | View of keys in a [fromKey…toKey] range, with inclusive flags. |
+
+These give you all the tools for both ordinary map lookup and “order‑aware” operations (floor/ceiling/higher/lower), as well as fast range queries via the various **view** methods.
