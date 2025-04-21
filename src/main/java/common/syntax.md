@@ -1,503 +1,382 @@
-Integer.MAX_VALUE: 2147483647
-Integer.MIN_VALUE: -2147483648
-Double.MAX_VALUE: 1.7976931348623157E308
-Double.MIN_VALUE: 4.9E-324
+**Java Cheat Sheet**
 
+---
 
-Remove spaces from a string 
+## 1. Primitive Constants
+
+- **Integer.MAX_VALUE**: `2147483647`
+- **Integer.MIN_VALUE**: `-2147483648`
+- **Double.MAX_VALUE**: `1.7976931348623157E308`
+- **Double.MIN_VALUE**: `4.9E-324`
+
+---
+
+## 2. String Cleaning
+
+Remove all whitespace from a string:
+```java
 String cleanedExpression = expression.replaceAll("\\s+", "");
+```
 
+---
 
-*********Pair syntax*********
-Pair<Integer, Integer> p = new Pair<Integer, Integer>(1,2);
-pair is immutable, so you cannot edit them. 
-p.getKey();
-p.getValue();
+## 3. Pair Syntax
 
+JavaFX's immutable `Pair`:
+```java
+Pair<Integer, Integer> p = new Pair<>(1, 2);
+int key   = p.getKey();   // 1
+int value = p.getValue(); // 2
+```
 
-*********Arrays syntax*********
-int [] ans = new int[k];
-ans.length
-Arrays.fill(ans,0);
+---
 
-int[][] intervals;
-Arrays.sort(intervals, new Comparator<int[]>(){
-    public int compare(int[] x , int [] y)
-    {
-        if(x[1]==y[1])
-        {
-            if(x[0]>y[0])return -1;
-            else return 1;
+## 4. Arrays
+
+### Declaration & Length
+```java
+int[] ans = new int[k];
+int len = ans.length;
+```
+
+### Fill
+```java
+Arrays.fill(ans, 0);
+```
+
+### Sorting
+```java
+// Sort intervals by end, then start descending
+Arrays.sort(intervals, new Comparator<int[]>() {
+    public int compare(int[] x, int[] y) {
+        if (x[1] == y[1]) {
+            return Integer.compare(y[0], x[0]);
         }
-        else if(x[1]<y[1])
-            return -1;
-        else
-            return 1;
+        return Integer.compare(x[1], y[1]);
     }
 });
 
+// Reverse-order for an array of Comparables
 Arrays.sort(arr, Comparator.reverseOrder());
- Arrays.sort(intervals, (a, b) -> a[0] - b[0]); sorting intervals based on their starting position using lambda expression
 
-Arrays.binarySearch(y, intervals[i][0]);
-return i if the key is found
-returns -i-1 if key is not found
+// Lambda sort by start
+Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+```
 
+### Binary Search
+```java
+int idx = Arrays.binarySearch(y, intervals[i][0]);
+// returns index if found, else -(insertionPoint) - 1
+```
 
+---
 
-*********Arraylist syntax*********
-ArrayList<Integer> temp = new ArrayList<Integer>();
-temp.size()
-temp.add(value)
-temp.set(1, "grapefruit")
-temp.get(index)
-Convert a set to arraylist
+## 5. ArrayList
 
-Set<List<Integer>> res = new HashSet<List<Integer>>();
-new ArrayList<>(res)
+```java
+ArrayList<Integer> temp = new ArrayList<>();
+int size = temp.size();
+temp.add(value);
+temp.set(1, 42);
+int x = temp.get(index);
 
+// Convert Set<List<Integer>> to ArrayList<List<Integer>>
+Set<List<Integer>> res = new HashSet<>();
+List<List<Integer>> list = new ArrayList<>(res);
+```
 
-way to initiate a 2d array is
+### 2D List Initialization
+```java
 List<List<Integer>> ans = new ArrayList<>();
-or
-List<ArrayList<Integer>> x = new ArrayList<ArrayList<Integer>>();
-Collections.sort(intervals, new Comparator<int[]>(){
-    public int compare(int[] x , int [] y)
-    {
-        if(x[1]==y[1])
-        {
-            if(x[0]>y[0])return -1;
-            else return 1;
-        }
-        else if(x[1]<y[1])
-            return -1;
-        else
-            return 1;
-    }
-});
+// or
+List<ArrayList<Integer>> x = new ArrayList<>();
+```
 
-ans.toArray(new int[ans.size()][])
+---
 
+## 6. Set Operations
 
-*********Set operations*********
-Set<List<Integer>> res = new HashSet<List<Integer>>();
-res.add(temp)
-res.contains(temp)
-res.remove(temp)
+```java
+Set<List<Integer>> res = new HashSet<>();
+res.add(temp);
+boolean has = res.contains(temp);
+res.remove(temp);
+```
 
+---
 
-*********HashMap operations*********
-HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
-map.put(nums[0],1);
-map.get(nums[i]);
-map.remove(nums[i])
-map.containsKey(key)
-map.keySet()
-map.values()
-map.entrySet()
-Map.Entry<String, Integer> entry  - ietrator
-entry.getKey()
-entry.getValue()
+## 7. HashMap
 
-for (String key : hashMap.keySet()) {
-    Integer value = hashMap.get(key);
-    System.out.println(key + " = " + value);
-}
+```java
+HashMap<Integer, Integer> map = new HashMap<>();
+map.put(nums[0], 1);
+int count = map.get(nums[i]);
+map.remove(nums[i]);
+boolean exists = map.containsKey(key);
+Set<Integer> keys = map.keySet();
+Collection<Integer> vals = map.values();
+Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
 
+// Iterate
 for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
-    String key = entry.getKey();
-    Integer value = entry.getValue();
-    System.out.println(key + " = " + value);
+    System.out.println(entry.getKey() + " = " + entry.getValue());
 }
 
-converting the list of values into arraylist
-ArrayList<Integer> arrayList = new ArrayList<>(hashMap.values());
-
-HashMap<Integer, Integer> mp = new HashMap<Integer, Integer>();
-for(int i: nums)
-{
-    mp.put(i, mp.getOrDefault(i,0)+1);
+// Build frequency map
+HashMap<Integer, Integer> freq = new HashMap<>();
+for (int num : nums) {
+    freq.put(num, freq.getOrDefault(num, 0) + 1);
 }
-List<Entry<Integer, Integer>> list = new LinkedList<Entry<Integer, Integer>>(mp.entrySet());
+// Sort entries by value descending
+List<Map.Entry<Integer, Integer>> list = new LinkedList<>(freq.entrySet());
+Collections.sort(list, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+```
 
-Collections.sort(list, new Comparator<Entry<Integer, Integer>>()
- {
-    public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2)
-    {
-        return (o2.getValue()).compareTo(o1.getValue());
-    }
- }
-);
+---
 
-TreeSet<Integer> set = new TreeSet<>();
-SortedSet<Integer> greaterThanX = set.tailSet(x, false);
-tailSet(x, false) returns a view of the portion of the set with elements strictly greater than x.
-false means exclude x. Use true to include x.
+## 8. TreeSet & NavigableSet
 
-
+```java
 TreeSet<Integer> set = new TreeSet<>();
 set.addAll(Arrays.asList(10, 20, 30, 40, 50));
 
-int x = 35;
+// Elements > x (exclusive)
+SortedSet<Integer> greater = set.tailSet(x, false);
 
-// Get all elements strictly less than x
-SortedSet<Integer> lessThanX = set.headSet(x, false);
+// Elements < x (exclusive)
+SortedSet<Integer> less = set.headSet(x, false);
+int countLess = less.size();
+```
 
-int count = lessThanX.size();
+---
 
-System.out.println("Count < " + x + " = " + count);
+## 9. TreeMap
 
+```java
+TreeMap<Integer, Integer> map = new TreeMap<>();
+map.put(k, v);
+Map.Entry<Integer, Integer> floor = map.floorEntry(k);
+```
 
+---
 
-*********TreeMap operations*********
-TreeMap<Integer,Integer> map = new TreeMap<Integer,Integer>();
-map.floorEntry(k); return the Map.Entry<> where k<=available keys
+## 10. LinkedList
 
+```java
+LinkedList<Integer> list = new LinkedList<>();
+int size = list.size();
+list.addFirst(val);
+list.addLast(val);
+list.getFirst();
+list.getLast();
+list.get(index);
+list.remove();
+list.removeFirst();
+list.removeLast();
+```
 
-*********LinkedList operations*********
-LinkedList<Integer> ans = new LinkedList<Integer>();
-ans.size()
-ans.addFirst(value)
-ans.addLast(value)
-ans.clear()
-ans.getFirst()
-ans.getLast()
-ans.get(index)
-ans.remove()
-ans.removeFirst()
-ans.removeLast()
+> **Tip:** If you hold a reference `List<Integer> x = new LinkedList<>()`, you can only call methods in the `List` interface (no `addFirst`).
 
-List<Integer> x = new LinkedList<Integer>();
-x.addFirst() will throw error saying cannot find symbol addFirst() because
-x has reference of List with LinkedList object. since there is no method like addFirst in the List class, it will throw a error.
+---
 
+## 11. String Operations
 
-*********String operations*********
-String s = "Raghu"
-s.charAt(0)
+```java
+String s = "Raghu";
+char c = s.charAt(0);
+bool eq = s.equals(p);
+int cmp = s.compareTo(p);
 
-s.equals(p);
-s.compareTo(p);
-
-s.substring(startIndex, endIndex_exclusive)
-String [] x = s.split(" ");
-
-if we want to split based on. '.' then the syntax is
-s.split("\\.");
+String sub = s.substring(start, end);
+String[] parts = s.split(" ");
+String[] esc = s.split("\\."); // split on dot
 
 StringBuilder sb = new StringBuilder();
 sb.append('-');
-sb.toString()
+String str = sb.toString();
+```
 
+### Regex Lookahead Split
+Split before `+` or `-` without consuming:
+```java
+String[] parts = expr.split("(?=\\+)|(?=-)");
+// e.g., "10+20-30+40" → ["10", "+20", "-30", "+40"]
+```
 
-lr[0].split("(?=\\+)|(?=-)")
-This is the key part. It splits the string using a regex with lookaheads.
+---
 
-✅ Regex Explained:
+## 12. Stack
 
-(?=\\+): Positive lookahead for +
-Matches a position just before a +
-\\+ is how you escape + in a Java string (regex requires \+, but Java strings require \\+)
-(?=-): Positive lookahead for -
-|: Logical OR
-So this will split the string before every + or -, but won’t remove the operator.
+```java
+Stack<Integer> stack = new Stack<>();
+stack.push(val);
+int top = stack.peek();
+int popped = stack.pop();
+boolean empty = stack.isEmpty();
+int sz = stack.size();
+```
 
-String[] lr = {"10+20-30+40"};
-String[] parts = lr[0].split("(?=\\+)|(?=-)");
-System.out.println(Arrays.toString(parts));
+---
 
-[10, +20, -30, +40]
+## 13. Random
 
+```java
+private Random rand = new Random();
+int r = rand.nextInt();
+```
 
+---
 
+## 14. PriorityQueue
 
+```java
+PriorityQueue<Integer> pq = new PriorityQueue<>();
+pq.add(val);
+int head = pq.peek();
+int polled = pq.poll();
+pq.clear();
 
-
-*********Stack operations*********
-Stack<Integer> stack = new Stack<Integer>();
-stack.push(value)
-stack.pop()
-stack.isEmpty()
-stack.size()
-stack.peek()
-
-
-*********Random operations*********
-private Random rand;
-rand = Rnadom()
-
-
-
-
-*********PriorityQueue operations*********
-PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
-pq.add(value)
-pq.poll() removes the root
-pq.peek() returns the root value
-pq.size()
-pq.clear()
-PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Comparator.reverseOrder());
-PriorityQueue<Pair<Integer, Double>> pq = new PriorityQueue<>(
-    (a, b) -> Double.compare(b.getValue(), a.getValue()) // Correct comparator
+// Max-heap
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+// Pair PQ
+PriorityQueue<Pair<Integer, Double>> pq2 = new PriorityQueue<>(
+    (a, b) -> Double.compare(b.getValue(), a.getValue())
 );
+```
 
+---
 
-*********** Map of 2d point***************
-    class Point {
-        int x;
-        int y;
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-        @Override
-        public boolean equals(Object o) {
-            if (o == null)
-                return false;
-            Point point = (Point) o;
-            return x == point.x && y == point.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
+## 15. 2D Point as Map Key
+```java
+class Point {
+    int x, y;
+    Point(int x, int y) { this.x = x; this.y = y; }
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Point)) return false;
+        Point p = (Point) o;
+        return x == p.x && y == p.y;
     }
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+}
+```
 
+> **Note:** `HashSet`/`HashMap` use `equals()` & `hashCode()`, not object reference.
 
+---
 
-
-In Java, HashSet uses equals() and hashCode() to determine if an object is already present in the set, not the memory reference of the object
-    List<Integer> x = new ArrayList<>(List.of(1,2,3));
-    List<Integer> y = List.of(1,2,3);
-    Set<List<Integer>> s = new HashSet<>();
-    s.add(x);
-    if(s.contains(y))
-        System.out.println("hello");
-    else
-        System.out.println("world");
-
-    output:
-        hello
-
-
-but the same doesn't work for, because equals() compare the memory reference in case of arrays.
-		int[] x1 = {1,2,3};
-		int[] y1 = {1,2,3};
-		Set<int[]> s1 = new HashSet<>();
-		s1.add(x1);
-		if(s1.contains(y1))
-		    System.out.println("hello");
-		else
-		    System.out.println("world");
-
-		output:
-		    world
-
-
-Upper and lower bound implementation
-**end is exclusive
-public int lowerBound(int [] nums, int start, int end, int x)
-{
-    while(start<end)
-    {
-        int mid = (start+end)/2;
-        if(nums[mid]>=x) end = mid;
-        else start = mid+1;
+## 16. Binary Search Bounds
+```java
+public int lowerBound(int[] nums, int start, int end, int x) {
+    while (start < end) {
+        int mid = (start + end) / 2;
+        if (nums[mid] >= x) end = mid;
+        else start = mid + 1;
     }
     return start;
 }
-public int upperBound(int [] nums, int start, int end, int x)
-{
-    while(start<end)
-    {
-        int mid = (start+end)/2;
-        if(nums[mid]<=x) start = mid+1;
+
+public int upperBound(int[] nums, int start, int end, int x) {
+    while (start < end) {
+        int mid = (start + end) / 2;
+        if (nums[mid] <= x) start = mid + 1;
         else end = mid;
     }
     return start;
 }
-ans[0] = lowerBound(nums, 0, nums.length, target);
 
-
----
-
-### 🔁 Java Conversions: `String`, `int`, `char`
-
----
-
-### ✅ **String → int**
-```java
-String str = "123";
-int num = Integer.parseInt(str);
+int idx = lowerBound(nums, 0, nums.length, target);
 ```
 
 ---
 
-### ✅ **String → char**
-(assuming you're extracting just one character)
-```java
-String str = "abc";
-char ch = str.charAt(0);  // gets 'a'
-```
+## 17. Conversions: `String`, `int`, `char`
+
+| From → To | Syntax                                              |
+|-----------|-----------------------------------------------------|
+| String → int  | `int num = Integer.parseInt(str);`               |
+| String → char | `char c = str.charAt(0);`                        |
+| char → int    | `int num = ch - '0'; // or (int) ch for ASCII`  |
+| char → String | `String s = String.valueOf(ch);`                 |
+| int → char    | `char c = (char)(num + '0'); // or (char) code`  |
+| int → String  | `String s = String.valueOf(num);`                |
 
 ---
 
-### ✅ **char → int**
+## 18. LRU Cache
 ```java
-char ch = '7';
-int num = ch - '0';  // If ch is a digit
-```
-Or to get ASCII/Unicode value:
-```java
-int code = (int) ch;  // e.g. 'A' -> 65
-```
-
----
-
-### ✅ **char → String**
-```java
-char ch = 'z';
-String str = String.valueOf(ch);
-// or
-String str2 = Character.toString(ch);
-```
-
----
-
-### ✅ **int → char**
-```java
-int num = 5;
-char ch = (char) (num + '0');  // If num is 0–9
-```
-Or to convert ASCII code:
-```java
-int code = 65;
-char ch = (char) code;  // 'A'
-```
-
----
-
-### ✅ **int → String**
-```java
-int num = 789;
-String str = String.valueOf(num);
-// or
-String str2 = Integer.toString(num);
-```
-
----
-
-LRU Cache
 class LRUCache {
-    int capacity; 
-    LinkedHashMap<Integer,Integer> mp ;
+    private final int capacity;
+    private final LinkedHashMap<Integer,Integer> mp;
+
     public LRUCache(int capacity) {
-        this.capacity = capacity; 
-        mp = new LinkedHashMap<Integer, Integer>(capacity, 0.75f, true){
+        this.capacity = capacity;
+        this.mp = new LinkedHashMap<>(capacity, 0.75f, true) {
             @Override
-            public boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest)
-            {
+            protected boolean removeEldestEntry(Map.Entry<Integer,Integer> eldest) {
                 return size() > LRUCache.this.capacity;
             }
         };
     }
-    
+
     public int get(int key) {
-        return mp.getOrDefault(key,-1);
+        return mp.getOrDefault(key, -1);
     }
-    
+
     public void put(int key, int value) {
-        mp.put(key,value);
-    }
-}
-
-Here’s a quick primer on using Java’s `TreeMap<K,V>` (which implements `NavigableMap<K,V>`):
-
-```java
-import java.util.*;
-
-public class TreeMapExample {
-    public static void main(String[] args) {
-        // 1) Declare & instantiate
-        TreeMap<String, Integer> map = new TreeMap<>();
-
-        // 2) Basic mutators/accessors
-        map.put("apple",  10);    // insert or overwrite
-        map.put("banana", 20);
-        map.put("cherry", 30);
-
-        Integer v = map.get("banana");   // 20
-        boolean has = map.containsKey("date"); 
-        Integer old = map.remove("apple");  // removes "apple" → 10
-
-        int size = map.size();   // 2
-        boolean empty = map.isEmpty();
-
-        // 3) NavigableMap methods
-        String lo = map.firstKey();    // lowest key
-        String hi = map.lastKey();     // highest key
-
-        Map.Entry<String,Integer> e1 = map.ceilingEntry("blue");  
-        // → first entry with key ≥ "blue"
-
-        String k2 = map.floorKey("blue");     
-        // → largest key ≤ "blue"
-
-        String higher = map.higherKey("banana"); 
-        // → next key > "banana"
-
-        String lower  = map.lowerKey("banana");  
-        // → next key < "banana"
-
-        // 4) Range views
-        SortedMap<String,Integer> head = map.headMap("cherry"); 
-        // keys < "cherry"
-
-        SortedMap<String,Integer> tail = map.tailMap("banana"); 
-        // keys ≥ "banana"
-
-        NavigableMap<String,Integer> sub = map.subMap("banana", true, "date", false);
-        // keys in [ "banana" … "date" )
-
-        // 5) Iteration
-        for (String key : map.keySet()) {
-            System.out.println(key + " → " + map.get(key));
-        }
-        for (Map.Entry<String,Integer> ent : map.entrySet()) {
-            System.out.println(ent.getKey() + ":" + ent.getValue());
-        }
-
-        // 6) Bulk operations
-        map.clear();
-        map.putAll(Map.of("x",1, "y",2, "z",3));
+        mp.put(key, value);
     }
 }
 ```
 
 ---
 
-### Common `TreeMap<K,V>` methods
+## 19. TreeMap Example & Common Methods
+Refer to [JavaDoc for `NavigableMap`](https://docs.oracle.com/javase/8/docs/api/java/util/NavigableMap.html)
 
-| Method Signature                                        | What it does                                                    |
-|---------------------------------------------------------|-----------------------------------------------------------------|
-| `V put(K key, V value)`                                 | Insert or replace the mapping for `key`.                       |
-| `V get(Object key)`                                     | Retrieve value for `key`, or `null` if absent.                 |
-| `V remove(Object key)`                                  | Remove entry for `key`, returning its old value (or `null`).   |
-| `boolean containsKey(Object key)`                       | `true` if map has a mapping for `key`.                         |
-| `int size()`, `boolean isEmpty()`                       | Query number of entries or emptiness.                          |
-|                                                         |                                                                 |
-| `K firstKey()`, `K lastKey()`                           | Lowest and highest keys, respectively.                         |
-| `Map.Entry<K,V> firstEntry()`, `lastEntry()`            | Entry for lowest/highest key.                                  |
-| `K ceilingKey(K key)`, `Map.Entry<K,V> ceilingEntry(K)` | Least key ≥ `key` (and its entry).                             |
-| `K floorKey(K key)`, `Map.Entry<K,V> floorEntry(K)`     | Greatest key ≤ `key` (and its entry).                          |
-| `K higherKey(K key)`, `Map.Entry<K,V> higherEntry(K)`   | Least key > `key`.                                             |
-| `K lowerKey(K key)`, `Map.Entry<K,V> lowerEntry(K)`     | Greatest key < `key`.                                          |
-| `NavigableSet<K> navigableKeySet()`                     | View of keys in ascending order.                               |
-| `NavigableSet<K> descendingKeySet()`                    | Keys in descending order.                                      |
-|                                                         |                                                                 |
-| `SortedMap<K,V> headMap(K toKey)`, `headMap(K,boolean)` | View of keys `< toKey` (optionally inclusive).                 |
-| `SortedMap<K,V> tailMap(K fromKey)`, `tailMap(K,boolean)` | View of keys `≥ fromKey` (optionally inclusive).             |
-| `NavigableMap<K,V> subMap(K fromKey, boolean, K toKey, boolean)` | View of keys in a [fromKey…toKey] range, with inclusive flags. |
+```java
+TreeMap<String,Integer> map = new TreeMap<>();
+map.put("apple", 10);
+map.put("banana",20);
+map.put("cherry",30);
 
-These give you all the tools for both ordinary map lookup and “order‑aware” operations (floor/ceiling/higher/lower), as well as fast range queries via the various **view** methods.
+String lo = map.firstKey();    // "apple"
+String hi = map.lastKey();     // "cherry"
+
+Map.Entry<String,Integer> ceil = map.ceilingEntry("blue");
+Map.Entry<String,Integer> floor = map.floorEntry("blue");
+String higher = map.higherKey("banana");
+String lower  = map.lowerKey("banana");
+
+SortedMap<String,Integer> head   = map.headMap("cherry");
+SortedMap<String,Integer> tail   = map.tailMap("banana");
+NavigableMap<String,Integer> sub = map.subMap("banana", true, "date", false);
+
+for (Map.Entry<String,Integer> ent : map.entrySet()) {
+    System.out.println(ent.getKey() + ": " + ent.getValue());
+}
+```
+
+| Method                                 | Description                                                        |
+|----------------------------------------|--------------------------------------------------------------------|
+| `put(K key, V value)`                  | Insert or replace the mapping for `key`.                           |
+| `get(Object key)`                      | Retrieve value, or `null` if absent.                               |
+| `remove(Object key)`                   | Remove entry, returning old value or `null`.                       |
+| `containsKey(Object key)`              | `true` if map has mapping for `key`.                               |
+| `firstKey()` / `lastKey()`             | Lowest / highest key.                                              |
+| `ceilingKey(K key)` / `ceilingEntry()` | Least key ≥ `key`.                                                 |
+| `floorKey(K key)` / `floorEntry()`     | Greatest key ≤ `key`.                                              |
+| `higherKey(K key)` / `higherEntry()`   | Least key > `key`.                                                 |
+| `lowerKey(K key)` / `lowerEntry()`     | Greatest key < `key`.                                              |
+| `headMap(K toKey)`                     | Keys < `toKey`.                                                    |
+| `headMap(K toKey, boolean inclusive)`  | Keys < or ≤ `toKey`.                                               |
+| `tailMap(K fromKey)`                   | Keys ≥ `fromKey`.                                                  |
+| `tailMap(K fromKey, boolean inclusive)`| Keys ≥ or > `fromKey`.                                             |
+| `subMap(K from, boolean, K to, boolean)` | Keys in range [from…to], with inclusive flags.                    |
+| `navigableKeySet()`                    | View of keys in ascending order.                                   |
+| `descendingKeySet()`                   | Keys in descending order.                                          |
+
+---
